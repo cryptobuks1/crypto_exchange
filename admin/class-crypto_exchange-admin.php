@@ -106,16 +106,63 @@ class Crypto_exchange_Admin {
 			"Crypto Exchange", 
 			"Crypto Exchange", 
 			"manage_options", 
-			"crypto-exchange", 
+			"crypto-exchange-dashboard", 
 			array($this, "crypto_exchange_dashboard"),
 			"dashicons-money-alt", 
 			20
+		);
+		add_submenu_page(
+			"crypto-exchange-dashboard", 
+			"Dashboard", 
+			"Dashboard", 
+			"manage_options", 
+			"crypto-exchange-dashboard", 
+			array($this, "crypto_exchange_dashboard"),
+			"dashicons-admin-generic",
+			0 
+		);
+		// add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = '', int $position = null )
+		add_submenu_page(
+			"crypto-exchange-dashboard", 
+			"Setting", 
+			"Setting", 
+			"manage_options", 
+			"crypto-exchange-setting", 
+			array($this, "crypto_exchange_setting"),
+			"dashicons-admin-generic",
+			1 
 		);
 	}
 
 	// dashboard menu Callbsck Function
 	public function crypto_exchange_dashboard(){
-		echo "<h3>Welcome to Crypto Exchange Deshboard<h3>";
+		global $wpdb;
+		// $name =  $wpdb->get_var("SELECT display_name from wp_users");
+
+		// $user_data = $wpdb->get_row(
+		// 	"SELECT * from wp_users WHERE ID=1",
+		// 	ARRAY_A
+		// );
+		// echo "<pre>";
+		// print_r($user_data);
+		// echo "</pre>";
+		// echo "<h2>Hello ".$user_data['display_name']."!</h2><hr><h3>Welcome to Crypto Exchange Deshboard<h3>";
+
+		$wp_post = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT post_title FROM wp_posts WHERE post_type = %s",
+				'post'
+			)
+		);
+
+		echo "<pre>";
+		print_r($wp_post);
+		echo "</pre>";
+	}
+
+	// Setting menu Callbsck Function
+	public function crypto_exchange_setting(){
+		echo "<h3>Welcome to Crypto Exchange Setting<h3>";
 	}
 
 }

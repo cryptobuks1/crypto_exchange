@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       All in One WP Crypto Exchange
  * Plugin URI:        https://auroratec.net
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       All in one Crypto Exchange Feature in wordpress website.
  * Version:           1.0.0
  * Author:            Manishankar Vakta
  * Author URI:        https://github.com/manishankarvakta
@@ -43,7 +43,8 @@ define( 'CRYPTO_EXCHANGE_VERSION', '1.0.0' );
  */
 function activate_crypto_exchange() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-crypto_exchange-activator.php';
-	Crypto_exchange_Activator::activate();
+	$activator = new Crypto_exchange_Activator();
+	$activator->activate();
 }
 
 /**
@@ -52,7 +53,8 @@ function activate_crypto_exchange() {
  */
 function deactivate_crypto_exchange() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-crypto_exchange-deactivator.php';
-	Crypto_exchange_Deactivator::deactivate();
+	$deactivator = new Crypto_exchange_Deactivator();
+	$deactivator->deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_crypto_exchange' );
