@@ -52,8 +52,11 @@ function activate_crypto_exchange() {
  * This action is documented in includes/class-crypto_exchange-deactivator.php
  */
 function deactivate_crypto_exchange() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-crypto_exchange-activator.php';
+	$activator = new Crypto_exchange_Activator();
+	
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-crypto_exchange-deactivator.php';
-	$deactivator = new Crypto_exchange_Deactivator();
+	$deactivator = new Crypto_exchange_Deactivator($activator);
 	$deactivator->deactivate();
 }
 

@@ -29,8 +29,20 @@ class Crypto_exchange_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public function deactivate() {
 
+	private $table_activator;
+
+	public function __construct($activator){
+		$this->table_activator = $activator;
+	}
+
+	public function deactivate() {
+		global $wpdb;
+
+		// Drop table on uninstall
+		$wpdb->query("DROP TABLE IF EXISTS ".$this->table_activator->table_name('crypto_exchange'));
+		$wpdb->query("DROP TABLE IF EXISTS ".$this->table_activator->table_name('crypto_exchange_setting'));
+		
 	}
 
 }
