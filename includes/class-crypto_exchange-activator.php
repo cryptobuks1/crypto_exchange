@@ -61,6 +61,30 @@ class Crypto_exchange_Activator {
 							('sdgjknfds;gijafsdo', 'fdadjghf;ghad;fi', 'Hitbtc API', 1)";
 
 			$wpdb->query($insert_query);
+
+			// Create page on plugin activation
+
+			// Chaek if page exists
+			$page_exists = $wpdb->get_row(
+				$wpdb->prepare(
+					"SELECT * FROM ".$wpdb->prefix."posts WHERE post_name = %s", 'crypto-exchange'
+				)
+			);
+
+			if(!empty($page_exists)){
+				// Do Nothing
+			}else{
+				$post_data_array = array(
+					'post_title' => 'Crypto Exchange',
+					'post_name' => 'crypto-exchange',
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'post_content' => 'Crypto Exchange page content will be update here',
+					'post_type' => 'page'
+				);
+
+				wp_insert_post($post_data_array, $wp_error);
+			}
 		}
 
 

@@ -160,6 +160,9 @@ class Crypto_exchange {
 		// action hook for admin menu 
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'exchange_menu' );
 
+		// action hook for admin ajax 
+		$this->loader->add_action( 'wp_ajax_admin_ajax_request', $plugin_admin, 'handel_ajax_request_admin' );
+
 
 	}
 

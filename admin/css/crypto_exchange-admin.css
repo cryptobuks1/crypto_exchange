@@ -2,3 +2,16 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+
+
+ .card{
+     padding: 0px !important;
+ }
+
+ .wp-core-ui select {
+    font-size: 16px !important;
+    max-width: 100% !important;
+ }
+
+ 

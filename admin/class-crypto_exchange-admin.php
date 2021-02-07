@@ -73,7 +73,18 @@ class Crypto_exchange_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/crypto_exchange-admin.css', array(), $this->version, 'all' );
+		$valid_page = array("crypto-exchange-dashboard", "crypto-exchange-setting");
+		$page = isset($_REQUEST['page']) ? $_REQUEST['page'] : "";
+
+
+		if(in_array($page, $valid_page)){
+			wp_enqueue_style( 'ce_bootstrap', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/css/bootstrap.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'ce_data_table', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/css/dataTables.bootstrap4.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'ce_sweet_alert', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/css/sweetalert.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'ce_font_awesome', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/css/font-awesome.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/crypto_exchange-admin.css', array(), $this->version, 'all' );
+		}
+
 
 	}
 
@@ -96,7 +107,26 @@ class Crypto_exchange_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/crypto_exchange-admin.js', array( 'jquery' ), $this->version, false );
+		$valid_page = array("crypto-exchange-dashboard", "crypto-exchange-setting");
+		$page = isset($_REQUEST['page']) ? $_REQUEST['page'] : "";
+
+
+		if(in_array($page, $valid_page)){
+
+			wp_enqueue_script( 'ce_bootstrap_jquery_js', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( 'ce_jquery_data_table_js', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/js/jquery.dataTables.min.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( 'ce_bootstrap_data_table_js', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/js/dataTables.bootstrap4.min.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( 'ce_sweet_alert_js', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/js/sweetalert.min.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/crypto_exchange-admin.js', array( 'jquery' ), $this->version, false );
+
+			wp_localize_script($this->plugin_name, 'ce_local', array(
+				'name' =>'Crypto Exchange',
+				'aouthor' =>'Manishankar Vakta',
+				'phone' =>'+880 1683 723969',
+				'email' =>'manishankarvakta@gmail.com',
+				'ajax_url' => admin_url('admin-ajax.php')
+			));
+		}
 
 	}
 
@@ -137,7 +167,7 @@ class Crypto_exchange_Admin {
 	// dashboard menu Callbsck Function
 	public function crypto_exchange_dashboard(){
 		global $wpdb;
-		// $name =  $wpdb->get_var("SELECT display_name from wp_users");
+		$name =  $wpdb->get_var("SELECT display_name from wp_users");
 
 		// $user_data = $wpdb->get_row(
 		// 	"SELECT * from wp_users WHERE ID=1",
@@ -146,12 +176,12 @@ class Crypto_exchange_Admin {
 		// echo "<pre>";
 		// print_r($user_data);
 		// echo "</pre>";
-		// echo "<h2>Hello ".$user_data['display_name']."!</h2><hr><h3>Welcome to Crypto Exchange Deshboard<h3>";
-
+		echo "<h2>Hello ".$name." ! Welcome to Crypto Exchange Deshboard<h2> <hr>	";
+		
 		$wp_post = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT post_title FROM wp_posts WHERE post_type = %s",
-				'post'
+				'page'
 			)
 		);
 
@@ -162,7 +192,44 @@ class Crypto_exchange_Admin {
 
 	// Setting menu Callbsck Function
 	public function crypto_exchange_setting(){
-		echo "<h3>Welcome to Crypto Exchange Setting<h3>";
+		global $wpdb;
+		$wp_post = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM wp_crypto_exchange"
+			)
+		);
+
+		
+
+		ob_start(); //start Buffer
+		
+		require_once(CRYPTO_EXCHANGE_PLUGIN_PATH.'admin/partials/ce_setting.php'); //include template
+
+		$view = ob_get_contents(); // reading content
+
+		ob_end_clean(); // end | close buffer
+
+		echo $view;
+	}
+
+
+	// handel_ajax_request_ajax
+	public function handel_ajax_request_admin(){
+		$param = isset($_REQUEST['param']) ? $_REQUEST['param'] : "";
+		
+		if(!empty($param)){
+			if($param == 'First_Ajax'){
+				echo json_encode(array(
+					'api_site' => 'Coin Market Cap',
+					'api_key' => 'LSFOIHJSFFSMCSIJ56468SFSf546',
+					'api_secret' => 'Coin Market Cap',
+					'status' => '1',
+
+				));
+			}
+		}
+
+		wp_die();
 	}
 
 }

@@ -42,7 +42,18 @@ class Crypto_exchange_Deactivator {
 		// Drop table on uninstall
 		$wpdb->query("DROP TABLE IF EXISTS ".$this->table_activator->table_name('crypto_exchange'));
 		$wpdb->query("DROP TABLE IF EXISTS ".$this->table_activator->table_name('crypto_exchange_setting'));
-		
+
+		$page_id =  $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT ID FROM wp_posts WHERE post_name = %s",
+				'crypto-exchange'
+			)
+		);
+
+		if($page_id > 0){
+			wp_delete_post($page_id, true);
+		}
+
 	}
 
 }
