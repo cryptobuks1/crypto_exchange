@@ -5,7 +5,7 @@
             <h4 class="text-info">Welcome to API Setting</h4>
             <hr>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
            
             <!-- card -->
             <div class="card  border-info">
@@ -13,10 +13,10 @@
                     <b><i class="fa fa-plus fa-fw"> </i> Add API</b>
                 </div>
                 <div class="card-body">
-                    <form id="add_api">
+                    <form action="javascript:void(0)" id="add_api">
                         <div class="form-group">
-                            <label for="website">Example select</label>
-                            <select class="form-control" name="api_site" id="website" style="width:100%">
+                            <label for="website">API Website</label>
+                            <select class="form-control" name="api_site" required id="website" style="width:100%">
                                 <option selected>Select API Website</option>
                                 <option value="Binance API">Binance API</option>
                                 <option value="Coin Market Cap">Coin Market Cap</option>
@@ -28,22 +28,22 @@
                         </div>
                         <div class="form-group">
                             <label for="api_key">API KEY</label>
-                            <input type="text" class="form-control" name="api_key" id="api_key" aria-describedby="api_key_help" placeholder="Enter API Key">
+                            <input type="text" class="form-control" required name="api_key" id="api_key" aria-describedby="api_key_help" placeholder="Enter API Key">
                             <small id="api_key_help" class="form-text text-muted">Your API Key.</small>
                         </div>
-                        <div class="form-group">
+                        <input type="hidden" class="form-control" name="id" id="api_id" value="">
+                        <!-- <div class="form-group">
                             <label for="api_secret">API Secret</label>
-                            <input type="text" class="form-control" name="api_secret" id="api_secret" aria-describedby="api_secret_help" placeholder="Enter API secret">
                             <small id="api_secret_help" class="form-text text-muted">Your API Secret.</small>
-                        </div>
-                        <div class="form-group">
+                        </div> -->
+                        <!-- <div class="form-group">
                             <label for="website">Status</label>
                             <select class="form-control" name="status" id="status" style="width:100%">
                                 <option selected value="1">Active</option>
                                 <option value="0">Deactive</option>
                             </select>
-                        </div>
-                        <button type="submit" id="ajax_submit" class="btn btn-info float-right    ">Submit</button>
+                        </div> -->
+                        <button type="submit" id="ajax_submit" data-id="" class="btn btn-info float-right    ">Submit</button>
                     </form>
                             
 
@@ -54,7 +54,7 @@
             
            
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             
             <!-- card -->
             <div class="card border-info">
@@ -72,7 +72,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Site</th>
-                                <th>AIP</th>
+                                <th>API</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -80,19 +81,28 @@
                             <?php 
                             if($wp_post):
                                 $i = 1;
-                                foreach($wp_post as $ce):?>
+                                foreach($wp_post as $ce):
+                                ?>
                             <tr>
-                                <td><b class="text-info"><?php echo $i++;?> .</b></td>
+                                <td><b class="text-info"><?php echo $i++;?>.</b></td>
                                 <td><?php echo $ce->api_site;?></td>
                                 <td><?php echo $ce->api_key;?></td>
-                                <td><i class="fa fa-fw <?php echo $status = ($ce->status == 1)? 'fa-toggle-on': 'fa-toggle-off';?> fa-2x text-info"> </i><i class="fa fa-fw fa-edit fa-2x text-info"> </i></td>
+                                <td><a href="javascript:void(0)" class="btn-status"   data-id="<?php echo $ce->ID;?>"  data-status="<?php echo $ce->status;?>"><i class="fa fa-fw <?php echo $status = ($ce->status == 1)? 'fa-toggle-on': 'fa-toggle-off';?> fa-2x text-info"> </i></a></td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn-edit"  data-id="<?php echo $ce->ID;?>">
+                                        <i class="fa fa-fw fa-edit text-info"> </i>
+                                    </a> 
+                                    <a href="javascript:void(0)" class="btn-delete"  data-id="<?php echo $ce->ID;?>">
+                                        <i class="fa fa-fw fa-trash text-info"> </i>
+                                    </a>
+                                </td>
                             </tr>
                             
                             <?php endforeach;
                                 else:
                             ?>
                             <tr>
-                                <td><i class="fa fa-fw exclamation fa-2x text-info"> </i> Sorry! We Could no find and saved API key. </td>
+                                <td colspan="4"><i class="fa fa-fw fa-exclamation fa-2x text-info"> </i> <b>Sorry! We Could no find and saved API key.</b> </td>
                             </tr>
                             <?php endif;?>
                         </tbody>

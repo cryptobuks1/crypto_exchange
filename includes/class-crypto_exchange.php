@@ -110,6 +110,9 @@ class Crypto_exchange {
 		 * of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-crypto_exchange-i18n.php';
+		
+
+
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
@@ -123,6 +126,7 @@ class Crypto_exchange {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-crypto_exchange-public.php';
 
 		$this->loader = new Crypto_exchange_Loader();
+
 
 	}
 
@@ -179,7 +183,11 @@ class Crypto_exchange {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		
+		// fontend Page template
+		$this->loader->add_action( 'page_template', $plugin_public, 'ce_page_template' );
 
+		add_shortcode("crypto-exchange", array($plugin_public, 'crypto_exchange_page_contant') );
 	}
 
 	/**

@@ -7,11 +7,16 @@
 
  .card{
      padding: 0px !important;
+     max-width: 100% !important;
  }
 
  .wp-core-ui select {
     font-size: 16px !important;
     max-width: 100% !important;
+ }
+
+ .wp-person a:focus .gravatar, a:focus, a:focus .media-icon img{
+    box-shadow: none !important;
  }
 
  

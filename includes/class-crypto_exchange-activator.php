@@ -67,14 +67,14 @@ class Crypto_exchange_Activator {
 			// Chaek if page exists
 			$page_exists = $wpdb->get_row(
 				$wpdb->prepare(
-					"SELECT * FROM ".$wpdb->prefix."posts WHERE post_name = %s", 'crypto-exchange'
+					"SELECT * FROM ".$wpdb->prefix."posts WHERE post_name = %s", array('crypto-exchange','coin-list')
 				)
 			);
 
 			if(!empty($page_exists)){
 				// Do Nothing
 			}else{
-				$post_data_array = array(
+				$crypto_exchange = array(
 					'post_title' => 'Crypto Exchange',
 					'post_name' => 'crypto-exchange',
 					'post_status' => 'publish',
@@ -83,7 +83,62 @@ class Crypto_exchange_Activator {
 					'post_type' => 'page'
 				);
 
-				wp_insert_post($post_data_array, $wp_error);
+				wp_insert_post($crypto_exchange, $wp_error);
+
+				$coin_list = array(
+					'post_title' => 'Coin List Page',
+					'post_name' => 'coin-list',
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'post_content' => 'Crypto Exchange page content will be update here',
+					'post_type' => 'page'
+				);
+
+				wp_insert_post($coin_list, $wp_error);
+
+				$coin_view = array(
+					'post_title' => 'Coin View Page',
+					'post_name' => 'coin-view',
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'post_content' => 'Crypto Exchange page content will be update here',
+					'post_type' => 'page'
+				);
+
+				wp_insert_post($coin_view, $wp_error);
+
+				$coin_exchange = array(
+					'post_title' => 'Coin Exchange Page',
+					'post_name' => 'coin-exchange',
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'post_content' => 'Crypto Exchange page content will be update here',
+					'post_type' => 'page'
+				);
+
+				wp_insert_post($coin_exchange, $wp_error);
+
+				$activity = array(
+					'post_title' => 'Activity',
+					'post_name' => 'activity',
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'post_content' => 'Crypto Exchange page content will be update here',
+					'post_type' => 'page'
+				);
+
+				wp_insert_post($activity, $wp_error);
+
+				$my_account = array(
+					'post_title' => 'My Account',
+					'post_name' => 'my-account',
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'post_content' => 'Crypto Exchange page content will be update here',
+					'post_type' => 'page'
+				);
+
+				wp_insert_post($my_account, $wp_error);
 			}
 		}
 

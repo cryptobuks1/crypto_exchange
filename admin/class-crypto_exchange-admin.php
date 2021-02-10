@@ -40,6 +40,10 @@ class Crypto_exchange_Admin {
 	 */
 	private $version;
 
+	// Table activetor
+
+	private $table_activator;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -51,6 +55,12 @@ class Crypto_exchange_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+
+		require_once CRYPTO_EXCHANGE_PLUGIN_PATH. 'includes/class-crypto_exchange-activator.php';
+		$activator = new Crypto_exchange_Activator();
+
+		$this->table_activator = $activator;
+		
 
 	}
 
@@ -195,7 +205,7 @@ class Crypto_exchange_Admin {
 		global $wpdb;
 		$wp_post = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM wp_crypto_exchange"
+				"SELECT * FROM ".$wpdb->prefix."crypto_exchange"
 			)
 		);
 
@@ -215,18 +225,127 @@ class Crypto_exchange_Admin {
 
 	// handel_ajax_request_ajax
 	public function handel_ajax_request_admin(){
+		global $wpdb;
+
 		$param = isset($_REQUEST['param']) ? $_REQUEST['param'] : "";
 		
 		if(!empty($param)){
-			if($param == 'First_Ajax'){
-				echo json_encode(array(
-					'api_site' => 'Coin Market Cap',
-					'api_key' => 'LSFOIHJSFFSMCSIJ56468SFSf546',
-					'api_secret' => 'Coin Market Cap',
-					'status' => '1',
+			if($param == 'save_api'){
+				$id = $_REQUEST['id'];
+				$api_site = $_REQUEST['api_site'];
+				$api_key = $_REQUEST['api_key'];
+				// $api_secret = $_REQUEST['api_secret'];
+				$users = get_current_user_id();
 
-				));
+				// print_r($id);
+
+				if($id != ''){
+					$update = $wpdb->update($this->table_activator->table_name('crypto_exchange'), array(
+						'api_site' => $api_site,
+						'api_key' => $api_key,
+					), array(
+						'id' => $id,
+					));
+
+					if($update === false){
+						echo json_encode(array(
+							'status' => 0,
+							'message' => 'API information is not Update successfully.'
+						));
+					}else{
+						echo json_encode(array(
+							'status' => 1,
+							'message' => 'API information is Updated successfully.'
+						));
+					}
+				}else{
+					$wpdb->insert($this->table_activator->table_name('crypto_exchange'), array(
+						'api_site' => $api_site,
+						'api_key' => $api_key,
+						'api_secret' => "",
+						'users' => $users,
+						'status' => 0
+					));
+					if($wpdb->insert_id > 0){
+						echo json_encode(array(
+							'status' => 1,
+							'message' => 'API information is saved successfully.'
+						));
+					}else{
+						echo json_encode(array(
+							'status' => 0,
+							'message' => 'API information is not saved successfully.'
+						));
+					}
+				}
+
+			}elseif($param == 'delete_api'){
+				// delete api
+				$id = isset($_REQUEST['api_id']) ? intval($_REQUEST['api_id']) : 0;
+
+				// echo $_REQUEST['api_id'];
+
+				if($id > 0){
+					$wpdb->delete($this->table_activator->table_name('crypto_exchange'), array(
+						'id' => $id,
+					));
+					echo json_encode(array(
+						'status' => 1,
+						'message' => 'API information is Delete successfully.'
+					));
+				}else{
+					echo json_encode(array(
+						'status' => 0,
+						'message' => 'API information is not Delete successfully.'
+					));
+				}
+
+			}elseif($param == 'api_status'){
+				// delete api
+				$id = isset($_REQUEST['api_id']) ? intval($_REQUEST['api_id']) : 0;
+				$status = ($_REQUEST['api_status'] == 0) ? intval(1) : intval(0);
+
+
+				// echo $_REQUEST['api_status'];
+
+				if($id > 0){
+					$wpdb->update($this->table_activator->table_name('crypto_exchange'), array(
+						'status' => $status, 
+					), array(
+						'id' => $id,
+					));
+					echo json_encode(array(
+						'status' => 1,
+						'message' => 'API Status is updated successfully.'
+					));
+				}else{
+					echo json_encode(array(
+						'status' => 0,
+						'message' => 'API Status is not updated successfully.'
+					));
+				}
+
+			}elseif($param == 'edit_api'){
+				// delete api
+				$id = isset($_REQUEST['api_id']) ? intval($_REQUEST['api_id']) : 0;
+
+				// echo $_REQUEST['api_status'];
+
+				if($id > 0){
+					$data = $wpdb->get_row(
+						$wpdb->prepare("SELECT * FROM ".$this->table_activator->table_name('crypto_exchange')." WHERE id = %d ", $id)
+					);
+					echo json_encode($data);
+				}else{
+					echo json_encode(array(
+						'status' => 0,
+						'message' => 'API Status is not updated successfully.'
+					));
+				}
+
 			}
+
+			
 		}
 
 		wp_die();

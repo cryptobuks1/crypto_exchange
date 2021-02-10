@@ -43,17 +43,28 @@ class Crypto_exchange_Deactivator {
 		$wpdb->query("DROP TABLE IF EXISTS ".$this->table_activator->table_name('crypto_exchange'));
 		$wpdb->query("DROP TABLE IF EXISTS ".$this->table_activator->table_name('crypto_exchange_setting'));
 
+		$pages = array('crypto-exchange', 'coin-list', 'coin-view', 'coin-exchange', 'activity', 'my-account');
+		
+		foreach($pages as $page){
+			$page_id = $this::page_id($page);
+			if($page_id > 0){
+				wp_delete_post($page_id, true);
+			}
+		}
+
+	}
+
+	public function page_id($slug=NULL){
+		global $wpdb;
+
 		$page_id =  $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT ID FROM wp_posts WHERE post_name = %s",
-				'crypto-exchange'
+				$slug
 			)
 		);
 
-		if($page_id > 0){
-			wp_delete_post($page_id, true);
-		}
-
+		return $page_id;
 	}
 
 }

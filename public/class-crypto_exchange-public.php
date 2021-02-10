@@ -74,7 +74,18 @@ class Crypto_exchange_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/crypto_exchange-public.css', array(), $this->version, 'all' );
+		
+		$valid_page = array('crypto-exchange', 'coin-list', 'coin-view', 'coin-exchange', 'activity', 'my-account');
+		$page = basename(get_permalink());
 
+
+		if(in_array($page, $valid_page)){
+			wp_enqueue_style( 'ce_bootstrap', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/css/bootstrap.min.css', array(), $this->version, 'all' );
+			// wp_enqueue_style( 'ce_data_table', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/css/dataTables.bootstrap4.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'ce_sweet_alert', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/css/sweetalert.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'ce_font_awesome', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/css/font-awesome.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/crypto_exchange-public.css', array(), $this->version, 'all' );
+		}
 	}
 
 	/**
@@ -96,8 +107,34 @@ class Crypto_exchange_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/crypto_exchange-public.js', array( 'jquery' ), $this->version, false );
+		$valid_page = array('crypto-exchange', 'coin-list', 'coin-view', 'coin-exchange', 'activity', 'my-account');
+		;
+		$page = basename(get_permalink());
 
+
+		if(in_array($page, $valid_page)){
+			wp_enqueue_script( 'ce_bootstrap_jquery_js', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( 'ce_bootstrap_poppr_js', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/js/popper.min.js', array( 'jquery' ), $this->version, false );
+			// wp_enqueue_script( 'ce_jquery_data_table_js', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/js/jquery.dataTables.min.js', array( 'jquery' ), $this->version, false );
+			// wp_enqueue_script( 'ce_bootstrap_data_table_js', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/js/dataTables.bootstrap4.min.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( 'ce_sweet_alert_js', CRYPTO_EXCHANGE_PLUGIN_URL. 'assest/js/sweetalert.min.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/crypto_exchange-public.js', array( 'jquery' ), $this->version, false );
+
+		}
+	}
+
+
+	public function ce_page_template(){
+		global $post;
+
+		if($post->post_name == 'crypto-exchange'){
+			$page_template = CRYPTO_EXCHANGE_PLUGIN_PATH.'public/partials/crypto_exchange.php';
+		}
+		return $page_template;
+	}
+
+	public function crypto_exchange_page_contant(){
+		echo 'This shortcode will load coin info';
 	}
 
 }
