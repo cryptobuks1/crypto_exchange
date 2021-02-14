@@ -32,5 +32,9 @@
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()
 	})
+	$(document).ready(function() {
+		$('table#coin_list').DataTable();
+	} );
+	
 
 })( jQuery );

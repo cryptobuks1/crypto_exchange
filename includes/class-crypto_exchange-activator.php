@@ -53,12 +53,7 @@ class Crypto_exchange_Activator {
 
 			// Insert data on activation
 			$insert_query = "INSERT into ".$this->table_name('crypto_exchange')." (api_key, api_secret, api_site, users) VALUES 
-							('sdgjknfds;gijafsdo', 'fdadjghf;ghad;fi', 'coinmarketcap', 1),
-							('sdgjknfds;gijafsdo', 'fdadjghf;ghad;fi', 'Binance API', 1),
-							('sdgjknfds;gijafsdo', 'fdadjghf;ghad;fi', 'Bittrex API', 1),
-							('sdgjknfds;gijafsdo', 'fdadjghf;ghad;fi', 'Poloniex API', 1),
-							('sdgjknfds;gijafsdo', 'fdadjghf;ghad;fi', 'Coinbase API', 1),
-							('sdgjknfds;gijafsdo', 'fdadjghf;ghad;fi', 'Hitbtc API', 1)";
+							('90cfef0b-6b58-4768-ac3b-cddf200f5867', 'api_secret', 'Coin Market Cap', 1)";
 
 			$wpdb->query($insert_query);
 

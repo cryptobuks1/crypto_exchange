@@ -128,6 +128,11 @@ class Crypto_exchange {
 		$this->loader = new Crypto_exchange_Loader();
 
 
+		// API Class Load
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-crypto_exchange_apicall.php';
+
+
+
 	}
 
 	/**

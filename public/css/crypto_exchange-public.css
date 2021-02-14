@@ -2,3 +2,8 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+ .social-link{
+     text-decoration: none;
+     margin: 0px 10px;
+ }

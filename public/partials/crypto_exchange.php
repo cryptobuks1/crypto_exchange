@@ -6,7 +6,7 @@ get_header();
 <div class="container-fluid">
     <div class="row">
     <div class="col-12">
-        <h3 class="text-center text-uppercase">   crypto Exchange</h3> 
+        <h3 class="text-center text-uppercase">  Crypto Exchange</h3> 
     </div>
         <div class="col-1">
         <div class="list-group">
@@ -19,7 +19,7 @@ get_header();
             <a href="#" class="list-group-item list-group-item-action" data-toggle="tooltip" data-placement="right" title="Tooltip on right"><i class="fa fa-bell"></i></a>
         </div>
         </div>
-        <div class="col-8">
+        <div class="col-11">
             <div class="row">
                 <div class="col-12">
                     <!-- short code -->
@@ -87,9 +87,9 @@ get_header();
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <!-- <div class="col-3">
             <?php get_sidebar();?>
-        </div>
+        </div> -->
     </div>
 </div>
 
